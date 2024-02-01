@@ -1,5 +1,4 @@
 import {
-  Attributes,
   ComponentProps as BaseComponentProps,
   ComponentType as BaseComponentType,
   ReactHTML,
@@ -58,13 +57,16 @@ export const styled: Styled = <
 
     const componentProps = useMemo(() => {
       const className = [classNameParam, ...classes, props?.className];
+      const isClassed = hasClassedSign(component);
 
-      return filterValidProp({
+      const targetProps = {
         ...(isObject(propsParams) && (propsParams as TargetProps)),
         ...props,
-        className: hasClassedSign(component) ? className : clsxm(className),
+        className: isClassed ? className : clsxm(className),
         ref,
-      }) as Attributes;
+      };
+
+      return isClassed ? targetProps : filterValidProp(targetProps);
     }, []);
 
     return createElement(component, componentProps);
