@@ -1,0 +1,1 @@
+export { classed } from './classed';

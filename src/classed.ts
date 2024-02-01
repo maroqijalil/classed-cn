@@ -7,12 +7,12 @@ import {
   useMemo,
 } from 'react';
 import type {
+  Classed,
+  ClassedProps,
+  ClassedPropsParamType,
   ComponentRefType,
-  PropsWithStyled,
+  PropsWithClassed,
   SafeClassValue,
-  Styled,
-  StyledProps,
-  StyledPropsParamType,
 } from './types';
 import {
   classedSign,
@@ -23,19 +23,19 @@ import {
   isObject,
 } from './utils';
 
-export const styled: Styled = <
-  Props extends object & StyledProps,
+export const classed: Classed = <
+  Props extends object & ClassedProps,
   ComponentType extends keyof ReactHTML | BaseComponentType = keyof ReactHTML | BaseComponentType,
 >(
   component: ComponentType,
-  passedProps?: StyledPropsParamType<BaseComponentProps<ComponentType> & Props>,
+  passedProps?: ClassedPropsParamType<BaseComponentProps<ComponentType> & Props>,
   ...classes: SafeClassValue[]
 ) => {
   type TargetProps = BaseComponentProps<ComponentType> & Props;
 
   const Component = forwardRef<
     ComponentRefType<ComponentType, Props>,
-    PropsWithStyled<TargetProps>
+    PropsWithClassed<TargetProps>
   >((props, ref) => {
     const propsParams = useMemo(
       () =>

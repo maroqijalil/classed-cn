@@ -21,15 +21,18 @@ export type SafeClassValue =
   | boolean
   | undefined;
 
-export type StyledProps = { className?: string };
+export type ClassedProps = { className?: string };
 
-export type PropsWithStyled<Props> = Omit<Props, 'className'> & { className?: ClassValue };
+export type PropsWithClassed<Props> = Omit<Props, 'className'> & { className?: ClassValue };
 
-export type StyledPropsParamFunction<Props> = (
-  props: PropsWithStyled<Props>,
-) => PropsWithStyled<Props> | SafeClassValue;
+export type ClassedPropsParamFunction<Props> = (
+  props: PropsWithClassed<Props>,
+) => PropsWithClassed<Props> | SafeClassValue;
 
-export type StyledPropsParamType<Props> = Props | SafeClassValue | StyledPropsParamFunction<Props>;
+export type ClassedPropsParamType<Props> =
+  | Props
+  | SafeClassValue
+  | ClassedPropsParamFunction<Props>;
 
 export type ComponentRefType<ComponentType extends keyof ReactHTML | BaseComponentType, Props> =
   ExtractHTMLElementByProps<Props> extends never
@@ -41,28 +44,28 @@ export type ComponentRefType<ComponentType extends keyof ReactHTML | BaseCompone
 export type PropsWithoutRef<
   ComponentType extends keyof ReactHTML | BaseComponentType<any>,
   Props,
-> = PropsWithStyled<BasePropsWithoutRef<BaseComponentProps<ComponentType> & Props>>;
+> = PropsWithClassed<BasePropsWithoutRef<BaseComponentProps<ComponentType> & Props>>;
 
-export type Styled = {
+export type Classed = {
   <
-    Props1 extends object & StyledProps,
+    Props1 extends object & ClassedProps,
     ComponentType1 extends keyof ReactHTML | BaseComponentType =
       | keyof ReactHTML
       | BaseComponentType,
   >(
     component: ComponentType1,
     passedProps?:
-      | StyledPropsParamFunction<BaseComponentProps<ComponentType1> & Props1>
+      | ClassedPropsParamFunction<BaseComponentProps<ComponentType1> & Props1>
       | (BaseComponentProps<ComponentType1> & Props1),
   ): ForwardRefExoticComponent<
     PropsWithoutRef<ComponentType1, Props1> &
       RefAttributes<ComponentRefType<ComponentType1, Props1>>
   >;
 
-  <Props2 extends object & StyledProps>(
+  <Props2 extends object & ClassedProps>(
     component: BaseComponentType<Props2>,
     passedProps?:
-      | StyledPropsParamFunction<BaseComponentProps<BaseComponentType<Props2>> & Props2>
+      | ClassedPropsParamFunction<BaseComponentProps<BaseComponentType<Props2>> & Props2>
       | (BaseComponentProps<BaseComponentType<Props2>> & Props2),
   ): ForwardRefExoticComponent<
     PropsWithoutRef<BaseComponentType<Props2>, Props2> &
@@ -70,7 +73,7 @@ export type Styled = {
   >;
 
   <
-    Props3 extends object & StyledProps,
+    Props3 extends object & ClassedProps,
     ComponentType2 extends keyof ReactHTML | BaseComponentType =
       | keyof ReactHTML
       | BaseComponentType,
@@ -82,7 +85,7 @@ export type Styled = {
       RefAttributes<ComponentRefType<ComponentType2, Props3>>
   >;
 
-  <Props4 extends object & StyledProps>(
+  <Props4 extends object & ClassedProps>(
     component: BaseComponentType<Props4>,
     ...passedProps: SafeClassValue[]
   ): ForwardRefExoticComponent<
