@@ -29,6 +29,7 @@
     "vite": "^5.0.8"
   },
   "dependencies": {
+    "@emotion/is-prop-valid": "^1.2.1",
     "clsx": "^2.1.0",
     "tailwind-merge": "^2.2.1"
   }

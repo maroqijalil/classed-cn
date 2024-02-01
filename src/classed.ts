@@ -1,4 +1,3 @@
-import clsx from 'clsx';
 import {
   Attributes,
   ComponentProps as BaseComponentProps,
@@ -8,7 +7,7 @@ import {
   forwardRef,
   useMemo,
 } from 'react';
-import {
+import type {
   ComponentRefType,
   PropsWithStyled,
   SafeClassValue,
@@ -16,7 +15,14 @@ import {
   StyledProps,
   StyledPropsParamType,
 } from './types';
-import { clsxm, getComponentDisplayName } from './utils';
+import {
+  classedSign,
+  clsxm,
+  filterValidProp,
+  getClassedComponentDisplayName,
+  hasClassedSign,
+  isObject,
+} from './utils';
 
 export const styled: Styled = <
   Props extends object & StyledProps,
@@ -35,13 +41,13 @@ export const styled: Styled = <
     const propsParams = useMemo(
       () =>
         typeof passedProps === 'function'
-          ? passedProps({ ...props, className: clsx(props?.className) } as TargetProps)
+          ? passedProps({ ...props, className: props?.className } as TargetProps)
           : passedProps,
       [props, passedProps],
     );
 
     const classNameParam = useMemo(() => {
-      if (propsParams?.constructor !== Object) return propsParams;
+      if (!isObject(propsParams)) return propsParams;
 
       if ((propsParams as Object)?.hasOwnProperty('className')) {
         return (propsParams as TargetProps)?.className;
@@ -50,21 +56,24 @@ export const styled: Styled = <
       return undefined;
     }, [propsParams]);
 
-    const componentProps = useMemo(
-      () =>
-        ({
-          ...(propsParams?.constructor !== Object && (propsParams as TargetProps)),
-          ...props,
-          className: clsxm(classNameParam, ...classes, props?.className),
-          ref,
-        }) as Attributes,
-      [],
-    );
+    const componentProps = useMemo(() => {
+      const className = [classNameParam, ...classes, props?.className];
+
+      return filterValidProp({
+        ...(isObject(propsParams) && (propsParams as TargetProps)),
+        ...props,
+        className: hasClassedSign(component) ? className : clsxm(className),
+        ref,
+      }) as Attributes;
+    }, []);
 
     return createElement(component, componentProps);
   });
 
-  Component.displayName = getComponentDisplayName(component);
+  Object.assign(Component, {
+    displayName: getClassedComponentDisplayName(component),
+    ...classedSign,
+  });
 
   return Component;
 };
