@@ -1,4 +1,4 @@
-import type { ClassDictionary, ClassValue } from 'clsx';
+import type { ClassValue } from 'clsx';
 import type {
   ComponentProps as BaseComponentProps,
   ComponentType as BaseComponentType,
@@ -13,26 +13,13 @@ import type {
 export type ExtractHTMLElementByProps<PropsType, FallbackType = never> =
   PropsType extends ClassAttributes<infer ElementType> ? ElementType : FallbackType;
 
-export type SafeClassValue =
-  | (SafeClassValue | ClassDictionary)[]
-  | string
-  | number
-  | null
-  | boolean
-  | undefined;
-
 export type ClassedProps = { className?: string };
 
 export type PropsWithClassed<Props> = Omit<Props, 'className'> & { className?: ClassValue };
 
-export type ClassedPropsParamFunction<Props> = (
-  props: PropsWithClassed<Props>,
-) => PropsWithClassed<Props> | SafeClassValue;
+export type ClassedPropsParamFunction<Props> = (props: PropsWithClassed<Props>) => ClassValue;
 
-export type ClassedPropsParamType<Props> =
-  | Props
-  | SafeClassValue
-  | ClassedPropsParamFunction<Props>;
+export type ClassedPropsParamType<Props> = ClassValue | ClassedPropsParamFunction<Props>;
 
 export type ComponentRefType<ComponentType extends keyof ReactHTML | BaseComponentType, Props> =
   ExtractHTMLElementByProps<Props> extends never
@@ -48,48 +35,38 @@ export type PropsWithoutRef<
 
 export type Classed = {
   <
-    Props1 extends object & ClassedProps,
-    ComponentType1 extends keyof ReactHTML | BaseComponentType =
-      | keyof ReactHTML
-      | BaseComponentType,
+    Props extends object & ClassedProps,
+    ComponentType extends keyof ReactHTML | BaseComponentType = keyof ReactHTML | BaseComponentType,
   >(
-    component: ComponentType1,
-    passedProps?:
-      | ClassedPropsParamFunction<BaseComponentProps<ComponentType1> & Props1>
-      | (BaseComponentProps<ComponentType1> & Props1),
+    component: ComponentType,
+    passedProps?: ClassedPropsParamFunction<BaseComponentProps<ComponentType> & Props>,
   ): ForwardRefExoticComponent<
-    PropsWithoutRef<ComponentType1, Props1> &
-      RefAttributes<ComponentRefType<ComponentType1, Props1>>
+    PropsWithoutRef<ComponentType, Props> & RefAttributes<ComponentRefType<ComponentType, Props>>
   >;
 
-  <Props2 extends object & ClassedProps>(
-    component: BaseComponentType<Props2>,
-    passedProps?:
-      | ClassedPropsParamFunction<BaseComponentProps<BaseComponentType<Props2>> & Props2>
-      | (BaseComponentProps<BaseComponentType<Props2>> & Props2),
+  <Props extends object & ClassedProps>(
+    component: BaseComponentType<Props>,
+    passedProps?: ClassedPropsParamFunction<BaseComponentProps<BaseComponentType<Props>> & Props>,
   ): ForwardRefExoticComponent<
-    PropsWithoutRef<BaseComponentType<Props2>, Props2> &
-      RefAttributes<ComponentRefType<BaseComponentType, Props2>>
+    PropsWithoutRef<BaseComponentType<Props>, Props> &
+      RefAttributes<ComponentRefType<BaseComponentType, Props>>
   >;
 
   <
-    Props3 extends object & ClassedProps,
-    ComponentType2 extends keyof ReactHTML | BaseComponentType =
-      | keyof ReactHTML
-      | BaseComponentType,
+    Props extends object & ClassedProps,
+    ComponentType extends keyof ReactHTML | BaseComponentType = keyof ReactHTML | BaseComponentType,
   >(
-    component: ComponentType2,
-    ...passedProps: SafeClassValue[]
+    component: ComponentType,
+    ...passedProps: ClassValue[]
   ): ForwardRefExoticComponent<
-    PropsWithoutRef<ComponentType2, Props3> &
-      RefAttributes<ComponentRefType<ComponentType2, Props3>>
+    PropsWithoutRef<ComponentType, Props> & RefAttributes<ComponentRefType<ComponentType, Props>>
   >;
 
-  <Props4 extends object & ClassedProps>(
-    component: BaseComponentType<Props4>,
-    ...passedProps: SafeClassValue[]
+  <Props extends object & ClassedProps>(
+    component: BaseComponentType<Props>,
+    ...passedProps: ClassValue[]
   ): ForwardRefExoticComponent<
-    PropsWithoutRef<BaseComponentType<Props4>, Props4> &
-      RefAttributes<ComponentRefType<BaseComponentType, Props4>>
+    PropsWithoutRef<BaseComponentType<Props>, Props> &
+      RefAttributes<ComponentRefType<BaseComponentType, Props>>
   >;
 };

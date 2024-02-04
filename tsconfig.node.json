@@ -9,7 +9,7 @@
     "moduleResolution": "bundler",
     "allowSyntheticDefaultImports": true,
     "allowImportingTsExtensions": false,
+    "emitDeclarationOnly": true,
     "noEmit": false
-  },
-  "include": ["**/vite.config.ts"]
+  }
 }

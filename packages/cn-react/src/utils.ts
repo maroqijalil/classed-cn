@@ -1,5 +1,5 @@
 import isPropValid from '@emotion/is-prop-valid';
-import clsx, { ClassValue } from 'clsx';
+import clsx, { type ClassValue } from 'clsx';
 import type { ComponentType } from 'react';
 import { twMerge } from 'tailwind-merge';
 

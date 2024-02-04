@@ -9,6 +9,11 @@
   "main": "./dist/cn-react.umd.js",
   "module": "./dist/cn-react.es.js",
   "types": "./dist/index.d.ts",
+  "exports": {
+    "types": "./dist/index.d.ts",
+    "import": "./dist/cn-react.es.js",
+    "require": "./dist/cn-react.umd.js"
+  },
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",

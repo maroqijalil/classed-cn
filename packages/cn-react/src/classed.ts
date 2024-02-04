@@ -1,3 +1,4 @@
+import type { ClassValue } from 'clsx';
 import {
   ComponentProps as BaseComponentProps,
   ComponentType as BaseComponentType,
@@ -12,7 +13,6 @@ import type {
   ClassedPropsParamType,
   ComponentRefType,
   PropsWithClassed,
-  SafeClassValue,
 } from './types';
 import {
   classedSign,
@@ -20,7 +20,6 @@ import {
   filterValidProp,
   getClassedComponentDisplayName,
   hasClassedSign,
-  isObject,
 } from './utils';
 
 export const classed: Classed = <
@@ -29,7 +28,7 @@ export const classed: Classed = <
 >(
   component: ComponentType,
   passedProps?: ClassedPropsParamType<BaseComponentProps<ComponentType> & Props>,
-  ...classes: SafeClassValue[]
+  ...classes: ClassValue[]
 ) => {
   type TargetProps = BaseComponentProps<ComponentType> & Props;
 
@@ -37,34 +36,18 @@ export const classed: Classed = <
     ComponentRefType<ComponentType, Props>,
     PropsWithClassed<TargetProps>
   >((props, ref) => {
-    const propsParams = useMemo(
+    const classNameParam = useMemo(
       () =>
         typeof passedProps === 'function'
-          ? passedProps({ ...props, className: props?.className } as TargetProps)
+          ? passedProps({ ...props, className: props?.className })
           : passedProps,
       [props, passedProps],
     );
 
-    const classNameParam = useMemo(() => {
-      if (!isObject(propsParams)) return propsParams;
-
-      if ((propsParams as Object)?.hasOwnProperty('className')) {
-        return (propsParams as TargetProps)?.className;
-      }
-
-      return undefined;
-    }, [propsParams]);
-
     const componentProps = useMemo(() => {
       const className = [classNameParam, ...classes, props?.className];
       const isClassed = hasClassedSign(component);
-
-      const targetProps = {
-        ...(isObject(propsParams) && (propsParams as TargetProps)),
-        ...props,
-        className: isClassed ? className : clsxm(className),
-        ref,
-      };
+      const targetProps = { ...props, className: isClassed ? className : clsxm(className), ref };
 
       return isClassed ? targetProps : filterValidProp(targetProps);
     }, []);
