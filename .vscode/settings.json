@@ -2,12 +2,24 @@
   "editor.codeActionsOnSave": {
     "source.organizeImports": "explicit",
     "source.addMissingImports": "explicit",
-    "source.fixAll": "explicit",
+    "source.fixAll": "explicit"
   },
   "editor.defaultFormatter": "esbenp.prettier-vscode",
   "editor.formatOnSave": true,
   "editor.quickSuggestions": {
     "strings": true
   },
-  "eslint.experimental.useFlatConfig": true
+  "eslint.experimental.useFlatConfig": true,
+  "tailwindCSS.experimental.classRegex": [
+    ["clsxm?\\(([^)]*)\\)", "(?:'|\"|`)([^']*)(?:'|\"|`)"],
+    [
+      "styled\\((?:[\\s]*)(?:'[\\w\\s-]+'|[\\w.]+)(?:[\\s]*),(?:[\\s]*)([^)]*)(?:[\\s]*)\\)",
+      "(?:[\\s]*)(?:'|\"|`)([^']*)(?:'|\"|`)(?:[\\s]*)"
+    ],
+    [
+      "{([\\s\\S]*)}",
+      "[(c|C)lass((n|N)ame)?|(s|S)tyles?]:\\s*['\"`]([^'\"`]*)['\"`]"
+    ]
+  ],
+  "tailwindCSS.classAttributes": [".*(c|C)lass((n|N)ame)?.*", ".*(s|S)tyles?.*"]
 }
