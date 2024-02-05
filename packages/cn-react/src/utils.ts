@@ -5,7 +5,7 @@ import { twMerge } from 'tailwind-merge';
 
 export const classedSign = { $$classed: true };
 
-export function clsxm(...args: ClassValue[]) {
+export function cn(...args: ClassValue[]) {
   return twMerge(clsx(...args));
 }
 

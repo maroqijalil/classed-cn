@@ -16,7 +16,7 @@ import type {
 } from './types';
 import {
   classedSign,
-  clsxm,
+  cn,
   filterValidProp,
   getClassedComponentDisplayName,
   hasClassedSign,
@@ -47,7 +47,7 @@ export const classed: Classed = <
     const componentProps = useMemo(() => {
       const className = [classNameParam, ...classes, props?.className];
       const isClassed = hasClassedSign(component);
-      const targetProps = { ...props, className: isClassed ? className : clsxm(className), ref };
+      const targetProps = { ...props, className: isClassed ? className : cn(className), ref };
 
       return isClassed ? targetProps : filterValidProp(targetProps);
     }, []);
