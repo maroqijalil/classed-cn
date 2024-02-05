@@ -12,7 +12,7 @@ npx create-turbo@latest
 
 ## What's inside?
 
-This Turborepo includes the following packages/apps:
+This Turborepo includes the following packages/examples:
 
 ### Apps and Packages
 
@@ -34,7 +34,7 @@ This Turborepo has some additional tools already setup for you:
 
 ### Build
 
-To build all apps and packages, run the following command:
+To build all examples and packages, run the following command:
 
 ```
 cd my-turborepo
@@ -43,7 +43,7 @@ pnpm build
 
 ### Develop
 
-To develop all apps and packages, run the following command:
+To develop all examples and packages, run the following command:
 
 ```
 cd my-turborepo
