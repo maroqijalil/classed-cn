@@ -1,8 +1,6 @@
-import hooks from "eslint-plugin-react-hooks";
-import baseConfig from "../../eslint.config";
+import hooks from 'eslint-plugin-react-hooks';
 
 export default [
-  ...baseConfig,
   {
     languageOptions: {
       globals: {
@@ -13,7 +11,7 @@ export default [
   },
   {
     plugins: {
-      "react-hooks": hooks,
+      'react-hooks': hooks,
     },
     rules: hooks.configs.recommended.rules,
   },

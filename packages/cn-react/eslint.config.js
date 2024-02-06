@@ -1,8 +1,6 @@
 import hooks from 'eslint-plugin-react-hooks';
-import baseConfig from '../../eslint.config';
 
 export default [
-  ...baseConfig,
   {
     languageOptions: {
       globals: {
