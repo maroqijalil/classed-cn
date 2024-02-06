@@ -20,26 +20,21 @@ export type ClassValue =
   | boolean
   | undefined;
 
-export type ClassedProps = { className?: string };
+export type ClassedProps = { className?: string | BaseClassValue };
 
 export type PropsWithClassed<Props> = Omit<Props, 'className'> & { className?: BaseClassValue };
 
 export type ClassedPropsParamFunction<Props> = (
   props: PropsWithClassed<Props>,
-) => BaseClassValue | void;
+) => ClassValue | void;
 
 export type ClassedPropsParamType<Props> = ClassValue | ClassedPropsParamFunction<Props>;
 
-export type ComponentRefType<
-  ComponentType extends keyof ReactHTML | BaseComponentType | HTMLElement,
-  Props,
-> =
+export type ComponentRefType<ComponentType extends keyof ReactHTML | BaseComponentType, Props> =
   ExtractHTMLElementByProps<Props> extends never
-    ? ComponentType extends keyof ReactHTML | BaseComponentType
-      ? ElementRef<ComponentType> extends never
-        ? BaseComponentType<Props>
-        : ElementRef<ComponentType>
-      : ComponentType
+    ? ElementRef<ComponentType> extends never
+      ? BaseComponentType<Props>
+      : ElementRef<ComponentType>
     : ExtractHTMLElementByProps<Props>;
 
 export type ClassedPropsRef<
