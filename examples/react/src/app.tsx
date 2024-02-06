@@ -1,4 +1,4 @@
-import { classed } from '@tailwind-classed/cn-react';
+import { classed } from '@classed-component/cn-react';
 
 const Component = classed('div', 'h-full w-full', 'flex justify-center');
 

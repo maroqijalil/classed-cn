@@ -10,7 +10,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@tailwind-classed/cn-react": "*",
+    "@classed-component/cn-react": "*",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
   },
